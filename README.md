@@ -2,6 +2,8 @@
 SOCKS Proxy Port Scanner
 
 ## Usage
+
+```
 usage: snake_socks.py [-h] -sh IP Address -sp Port -t TARGET -p TARGETPORTS
 
 optional arguments:
@@ -14,3 +16,4 @@ optional arguments:
                         Can be a single IP, or CIDR
   -p TARGETPORTS, --ports TARGETPORTS
                         Can be a single port, top (1000), or all
+```
