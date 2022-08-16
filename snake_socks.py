@@ -22,6 +22,8 @@ parser.add_argument("-tc", "--thread-count", dest="threads",
                     help="Number of threads to use", default="100")
 parser.add_argument("-p", "--ports", dest="targetPorts",
                     help="Can be a single port, top (1000), all, interesting, quick, or comma separated", required="true")
+parser.add_argument("-pt", "--proxy-type", dest="proxyType",
+                    help="4 or 5", default="4")
 
 args = parser.parse_args()
 proxyServer = args.socksHost
@@ -29,9 +31,13 @@ proxyPort = int(args.socksPort)
 threadCount = int(args.threads)
 timeout = 3
 
+if args.proxyType == '4':
+  proxy_type = socks.PROXY_TYPE_SOCKS4
+elif args.proxyType == '5':
+  proxy_type = socks.PROXY_TYPE_SOCKS5
+
 print_lock = threading.Lock()
-# socks4 is marginally quicker than socks5, SSH proxy supports both.
-socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS4, proxyServer, proxyPort)
+socks.setdefaultproxy(proxy_type, proxyServer, proxyPort)
 socket.socket = socks.socksocket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
